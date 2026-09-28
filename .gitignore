@@ -1,0 +1,40 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Node modules
+node_modules/
+dist/
+dist-ssr/
+
+# Environment and local configs
+.env
+.env.local
+.env.*.local
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Cloudflare / Wrangler cache
+.wrangler/
+
+# Temporary / raw scratch files not referenced by the site
+*.mp4
+gardencitynight.png
+Gardencitymorining.png
+raw_assets/
+aydins tower/
+aydins-images 2/
+peraltower/
+newimage/

@@ -1,0 +1,284 @@
+@import './variables.css';
+
+/* -------------------------------------------------------------
+   Global Resets & Base Styles
+------------------------------------------------------------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  background-color: var(--swatch--brand-800);
+  color: var(--swatch--dark-900);
+  font-family: var(--font-family-body);
+  font-size: 16px;
+  line-height: var(--line-height-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--theme--bg);
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Custom Text Selection matching Rio Property */
+::selection {
+  background-color: var(--swatch--brand-800);
+  color: var(--swatch--brand-300);
+}
+
+img, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+button {
+  background: none;
+  border: none;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  outline: none;
+}
+
+input, textarea, select {
+  font: inherit;
+  color: inherit;
+  background: transparent;
+  border: none;
+  outline: none;
+  width: 100%;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+/* -------------------------------------------------------------
+   Container & Layout Utilities
+------------------------------------------------------------- */
+.u-container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--container-padding);
+  padding-right: var(--container-padding);
+}
+
+.u-container-full {
+  width: 100%;
+  padding-left: var(--container-padding);
+  padding-right: var(--container-padding);
+}
+
+.u-section {
+  position: relative;
+  width: 100%;
+  padding-top: var(--space-3xl);
+  padding-bottom: var(--space-3xl);
+}
+
+.u-section-compact {
+  padding-top: var(--space-xl);
+  padding-bottom: var(--space-xl);
+}
+
+/* -------------------------------------------------------------
+   Typography Styles
+------------------------------------------------------------- */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-family-display);
+  font-weight: 700;
+  line-height: var(--line-height-snug);
+  letter-spacing: -0.02em;
+  color: var(--swatch--dark-900);
+}
+
+.u-text-hero-giant {
+  font-family: var(--font-family-display);
+  font-size: var(--font-size-hero-huge);
+  line-height: var(--line-height-tight);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  text-transform: uppercase;
+}
+
+.u-heading-h1 {
+  font-size: var(--font-size-h1);
+  line-height: var(--line-height-tight);
+}
+
+.u-heading-h2 {
+  font-size: var(--font-size-h2);
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+}
+
+.u-heading-h3 {
+  font-size: var(--font-size-h3);
+  letter-spacing: -0.015em;
+}
+
+.u-subheading {
+  font-family: var(--font-family-body);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--swatch--brand-500);
+  margin-bottom: var(--space-sm);
+  display: block;
+}
+
+/* -------------------------------------------------------------
+   Animated Yellow Underline Effect
+------------------------------------------------------------- */
+[data-underline-link] {
+  text-decoration: none;
+  position: relative;
+  display: inline-block;
+}
+
+[data-underline-link]::before,
+[data-underline-link]::after {
+  content: "";
+  position: absolute;
+  bottom: -0.08em;
+  left: 0;
+  width: 100%;
+  height: 0.08em;
+  background-color: var(--swatch--yellow-500);
+  transition: transform 0.735s cubic-bezier(0.625, 0.05, 0, 1);
+}
+
+[data-underline-link]::before {
+  transform-origin: left;
+  transform: scaleX(1);
+}
+
+[data-underline-link]::after {
+  transform-origin: right;
+  transform: scaleX(0);
+}
+
+[data-underline-link]:hover::before {
+  transform-origin: right;
+  transform: scaleX(0);
+}
+
+[data-underline-link]:hover::after {
+  transform-origin: left;
+  transform: scaleX(1);
+  transition-delay: 0.15s;
+}
+
+/* -------------------------------------------------------------
+   Button Styles with Animated Sliding Arrow
+------------------------------------------------------------- */
+.rio-btn-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: var(--font-family-body);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--swatch--brand-500);
+  position: relative;
+  padding-bottom: 0.35rem;
+}
+
+.rio-btn-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: currentColor;
+  transition: transform 0.4s var(--ease-out-expo);
+  transform-origin: right;
+}
+
+.rio-btn-link:hover::after {
+  transform: scaleX(0.85);
+  transform-origin: left;
+}
+
+.btn-icon-wrap {
+  width: 1.25rem;
+  height: 1.25rem;
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-icon-wrap svg {
+  width: 100%;
+  height: 100%;
+  stroke-width: 1.5;
+  transition: transform 0.5s var(--ease-out-expo);
+}
+
+.rio-btn-link:hover .btn-icon-wrap svg {
+  transform: translate(100%, -100%);
+}
+
+.btn-icon-wrap svg.is-hidden {
+  position: absolute;
+  transform: translate(-100%, 100%);
+}
+
+.rio-btn-link:hover .btn-icon-wrap svg.is-hidden {
+  transform: translate(0, 0);
+}
+
+/* Primary Capsule Button */
+.rio-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1rem 2rem;
+  background-color: var(--swatch--yellow-500);
+  color: var(--swatch--dark-900);
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  border-radius: var(--border-radius-full);
+  transition: all 0.4s var(--ease-out-expo);
+  box-shadow: 0 4px 14px rgba(255, 234, 0, 0.25);
+}
+
+.rio-btn-primary:hover {
+  background-color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(255, 255, 255, 0.3);
+}
+
+/* -------------------------------------------------------------
+   Page Wrapper
+------------------------------------------------------------- */
+.page_wrap {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background-color: var(--theme--bg);
+}
