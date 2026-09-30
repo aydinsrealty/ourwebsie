@@ -814,10 +814,14 @@ h1,h2,h3,h4,.hero_text_huge,.hero_main_text_heading.u-text-style-h1,.bold-nav-fu
    ============================================================= */
 .aydin_collage_section {
   width: 100%;
-  padding: 80px 0 120px;
+  padding: 80px 0 100px;
   background: #fffefc;
   color: #230f66;
   overflow: hidden;
+}
+.aydin_collage_plots_section {
+  padding-top: 40px;
+  border-top: 1px solid rgba(35, 15, 102, 0.08);
 }
 .aydin_collage_header {
   margin-bottom: 36px;

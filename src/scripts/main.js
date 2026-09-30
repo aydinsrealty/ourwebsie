@@ -591,7 +591,13 @@ if (aydinLightbox) {
 
     const img = item.querySelector('img');
     if (img && lightboxImg) {
-      lightboxImg.src = img.src;
+      const highResSource = item.querySelector('source[srcset]');
+      if (highResSource) {
+        const srcsetList = highResSource.srcset.split(',').map(s => s.trim().split(' ')[0]);
+        lightboxImg.src = srcsetList[0] || img.currentSrc || img.src;
+      } else {
+        lightboxImg.src = img.currentSrc || img.src;
+      }
       lightboxImg.alt = img.alt || 'Architectural Perspective';
     }
 
