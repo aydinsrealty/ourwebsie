@@ -116,13 +116,8 @@
       <section class="hero_home_section" id="hero">
         <div class="hero_home_video_outer">
           <div class="hero_home_video_wrap">
-            <video id="heroLoopVideo" class="hero_loop_video" muted playsinline preload="auto" poster="/assets/images/firstframe.jpg" aria-hidden="true">
-              <source src="/assets/videos/hero-forward-48.mp4" type="video/mp4" />
-            </video>
-            <video id="heroReverseVideo" class="hero_loop_video is-reverse" muted playsinline preload="auto" poster="/assets/frames/frame-121.webp" aria-hidden="true">
-              <source src="/assets/videos/hero-reverse-48.mp4" type="video/mp4" />
-            </video>
-            <img id="heroCameraImage" class="hero_camera_image" src="/assets/images/firstframe.jpg" width="5504" height="3072" fetchpriority="high" alt="Aydins Heaven aerial drone landscape">
+            <canvas id="heroSequenceCanvas" class="hero_canvas_player" width="2560" height="1440" data-frames="121" data-frame-path="/assets/frames/frame-"></canvas>
+            <img id="heroCameraImage" class="hero_camera_image" src="/assets/frames/frame-1.webp" srcset="/assets/frames/frame-1.webp 2560w, /assets/images/firstframe.jpg 5504w" sizes="(max-aspect-ratio: 1/1) 180vh, 100vw" width="2560" height="1440" fetchpriority="high" alt="Aydins Heaven aerial drone landscape">
             <div class="hero_clean_overlay"></div>
           </div>
         </div>
