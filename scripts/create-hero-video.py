@@ -1,19 +1,23 @@
-"""Render a 4K camera push-in from the supplied still; no generative detail."""
+"""Render the optional 4K camera push-in and responsive hero still."""
+import argparse
 from pathlib import Path
 import cv2
 import numpy as np
 from PIL import Image
 
 root = Path(__file__).resolve().parents[1]
-source = Path('/Users/aseem/Downloads/IMG_8812.JPG')
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument('source', type=Path, help='Source still image')
+args = parser.parse_args()
+source = args.source.expanduser().resolve()
 im = Image.open(source).convert('RGB')
-for width in (1600, 2880, 4400):
-    copy = im.copy()
-    copy.thumbnail((width, width))
-    copy.save(root / f'public/assets/images/heaven-{width}.webp', quality=91, method=6)
+copy = im.copy()
+copy.thumbnail((2880, 2880))
+copy.save(root / 'public/assets/images/heaven-2880.webp', quality=91, method=6)
 frame = cv2.imread(str(source))
 h, w = frame.shape[:2]
 out = root / 'public/assets/videos/heaven-camera-4k.mp4'
+out.parent.mkdir(parents=True, exist_ok=True)
 writer = cv2.VideoWriter(str(out), cv2.VideoWriter_fourcc(*'avc1'), 24, (3840, 2160))
 if not writer.isOpened():
     raise RuntimeError('H.264 encoder unavailable')

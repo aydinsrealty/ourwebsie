@@ -10,17 +10,18 @@ Reviewed Home, Meet the team, Done Deals, Services and Contact, including hero c
 - Full-height image heroes, square cards, white editorial sections, purple navigation/contact sections and dark footer.
 - Shared entry/exit curtain across all five routes, bounded image/font wait, CSS fail-open fallback, back/forward recovery and reduced-motion support.
 - Menu keyboard focus handling, Escape support, semantic hidden labels, real service links, gallery/list switching and accordion ARIA states.
-- One high-resolution responsive hero source with scroll-driven camera motion instead of preloading 121 individual frames. Reduced-motion and small-screen visitors receive the still.
+- A high-resolution responsive hero fallback paired with a scroll-driven 121-frame sequence. Reduced-motion and small-screen visitors receive the still.
+- The current local hero sequence is sampled from `headvids.mp4` at 3840 × 2160 / 24 fps. `scripts/extract-hero-frames.py` creates 121 naturally downsampled 2560 × 1440 WebP frames without artificial sharpening or upscaling.
 
 ## Media
 
-`public/assets/videos/heaven-camera-4k.mp4`: 3840 × 2160, H.264, 24 fps, 10 seconds, approximately 8.6 MB. This is a smooth camera push-in rendered from the supplied 5504 × 3072 image, not generative video or real drone footage. The website reproduces that camera move directly on a responsive image to preserve sharpness while avoiding video buffering. The standalone MP4 is available for use elsewhere.
+The optional `public/assets/videos/heaven-camera-4k.mp4` export is 3840 × 2160, H.264, 24 fps and 10 seconds long. It is a smooth camera push-in rendered from the supplied 5504 × 3072 image, not generative video or real drone footage. The website reproduces that camera move directly on a responsive image to preserve sharpness while avoiding video buffering. Generated video files are ignored because they are not part of the deployed site.
 
-The reproducible export script is `scripts/create-hero-video.py`. The source image remains in the user's Downloads directory. Original video and frames remain available and unmodified.
+The reproducible export script is `scripts/create-hero-video.py`; run it with a source image path when an optional video is needed. The site keeps the optimized responsive still and the 121-frame scroll sequence under `public/assets/`.
 
 ## Verification and boundaries
 
-- `npm run build` passes for all five HTML entry points.
+- `npm run build` passes for all nine configured HTML entry points.
 - Desktop and 390px mobile browser checks; navigation transition, gallery/list switch, service accordion and checkbox interaction checked.
 - Local asset audit: no missing referenced assets or duplicate IDs.
 - 4K video metadata and midpoint decode checked.

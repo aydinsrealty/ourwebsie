@@ -18,7 +18,8 @@
   <link rel="stylesheet" href="/src/styles/main.css" />
   <link rel="stylesheet" href="/src/styles/components.css" />
 <link rel="preload" href="/assets/fonts/blauer-nue-semibold.otf" as="font" type="font/otf" crossorigin>
-<link rel="stylesheet" href="/src/styles/reference.css">
+  <link rel="stylesheet" href="/src/styles/reference.css">
+  <link rel="stylesheet" href="/src/styles/continuity.css">
 <noscript><style>.preloader_wrap{display:none!important}</style></noscript>
 </head>
 <body>
@@ -26,6 +27,10 @@
        0. Authentic Splash Screen / Preloader (Rio Property Signature)
   -------------------------------------------------------------- -->
 <div class="preloader_wrap" id="sitePreloader" aria-hidden="true"><div class="preloader_mid"><img src="/assets/images/logo-white.png" alt="Aydins Realty" class="preloader_logo_img" data-preloader-logo width="200" height="58" loading="eager" decoding="sync" /><div class="preloader_loading_bar_wrap"><div class="preloader_loading_bar" data-preloader-bar></div></div><div class="preloader_counter" data-preloader-count>0%</div></div></div>
+<div class="hero_to_about_wash" id="heroToAboutWash" aria-hidden="true">
+  <div class="hero_corner_sky"></div>
+  <img class="hero_building_wipe" src="/assets/images/architectural-corner-wipe.png" alt="" decoding="async">
+</div>
 
   <div class="page_wrap">
 
@@ -82,15 +87,6 @@
           </a>
         </li>
         <li class="bold-nav-full__li">
-          <a href="/services/" class="bold-nav-full__link">
-            <span>Services</span>
-            <div class="bold-nav-full__icon_wrap">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M7 17L17 7M17 7H7M17 7V17"></path></svg>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" class="is-hidden"><path d="M7 17L17 7M17 7H7M17 7V17"></path></svg>
-            </div>
-          </a>
-        </li>
-        <li class="bold-nav-full__li">
           <a href="/contact/" class="bold-nav-full__link">
             <span>Get in Touch</span>
             <div class="bold-nav-full__icon_wrap">
@@ -113,15 +109,20 @@
       </div>
     </div>
 
-    <!-- -------------------------------------------------------------
-         1. Hero Section with Scroll-Scrubbed Drone Video
+     <!-- -------------------------------------------------------------
+          1. Hero Section with Scroll-Started Cinematic Video
     -------------------------------------------------------------- -->
     <div class="hero_scroll_pin_wrap" id="heroScrollPin">
       <section class="hero_home_section" id="hero">
         <div class="hero_home_video_outer">
           <div class="hero_home_video_wrap">
-            <canvas id="heroSequenceCanvas" class="hero_canvas_player" width="2560" height="1440" data-frames="121" data-frame-path="/assets/frames/frame-"></canvas>
-            <img id="heroCameraImage" class="hero_camera_image" src="/assets/frames/frame-1.webp" srcset="/assets/frames/frame-1.webp 2560w, /assets/images/heaven-2880.webp 2880w" sizes="(max-aspect-ratio: 1/1) 180vh, 100vw" width="2560" height="1440" fetchpriority="high" alt="Aydins Heaven aerial drone landscape">
+            <video id="heroLoopVideo" class="hero_loop_video" muted playsinline preload="auto" poster="/assets/images/firstframe.jpg" aria-hidden="true">
+              <source src="/assets/videos/hero-forward-48.mp4" type="video/mp4" />
+            </video>
+            <video id="heroReverseVideo" class="hero_loop_video is-reverse" muted playsinline preload="auto" poster="/assets/frames/frame-121.webp" aria-hidden="true">
+              <source src="/assets/videos/hero-reverse-48.mp4" type="video/mp4" />
+            </video>
+            <img id="heroCameraImage" class="hero_camera_image" src="/assets/images/firstframe.jpg" width="5504" height="3072" fetchpriority="high" alt="Aydins Heaven aerial drone landscape">
             <div class="hero_clean_overlay"></div>
           </div>
         </div>
@@ -157,6 +158,10 @@
           </div>
         </div>
 
+        <div class="hero_logo_reveal" data-hero-logo aria-hidden="true">
+          <img src="/assets/images/logo-white.png" alt="Aydins Realty" class="hero_logo_reveal_image" width="360" height="105" />
+        </div>
+
         <!-- Scroll Indicator -->
         <div class="hero_scroll_indicator">
           <span>Scroll</span>
@@ -175,46 +180,25 @@
             <span class="u-subheading" style="margin-bottom: 0.75rem; display: block;">About Aydins Realty</span>
             <h2 class="u-heading-h2">Building Value, Creating Opportunities.</h2>
             <div class="brand_signature_pillars">
-              <span>Invest</span>
-              <span class="pillar_sep">|</span>
-              <span>Grow</span>
-              <span class="pillar_sep">|</span>
-              <span>Build Tomorrow</span>
+              <span>Invest</span><span class="pillar_sep">|</span><span>Grow</span><span class="pillar_sep">|</span><span>Build Tomorrow</span>
             </div>
           </div>
           <div class="cta_content_col_left">
-            <a href="#projects" class="rio-btn-link">
-              <span>EXPLORE OUR PROJECTS</span>
-              <div class="btn-icon-wrap">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M7 17L17 7M17 7H7M17 7V17"></path></svg>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" class="is-hidden"><path d="M7 17L17 7M17 7H7M17 7V17"></path></svg>
-              </div>
-            </a>
+            <a href="#projects" class="rio-btn-link"><span>EXPLORE OUR PROJECTS</span><div class="btn-icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M7 17L17 7M17 7H7M17 7V17"></path></svg><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" class="is-hidden"><path d="M7 17L17 7M17 7H7M17 7V17"></path></svg></div></a>
           </div>
           <div class="cta_content_col_right">
-            <p>
-              At Aydins Realty, we focus on developing high-potential commercial, hospitality, and residential projects with a commitment to quality, timely execution, and attractive investor returns across strategic growth corridors.
-            </p>
+            <p>At Aydins Realty, we focus on developing high-potential commercial, hospitality, and residential projects with a commitment to quality, timely execution, and attractive investor returns across strategic growth corridors.</p>
           </div>
         </div>
       </div>
-    </section>
-
-    <!-- -------------------------------------------------------------
-         3. Client / Partner Marquee Section
-    -------------------------------------------------------------- -->
-    <section class="carousel_home_section">
-      <div class="carousel_title_wrap">
-        <span class="u-subheading">Strategic Collaborations</span>
-        <h3>Institutional Alliances &amp; Development Partners</h3>
-      </div>
-
-      <div class="marquee-container">
-        <div class="marquee-track" id="marqueeTrack1">
-          <!-- Dynamically populated from marquee-logos.json -->
-        </div>
-        <div class="marquee-track" id="marqueeTrack2">
-          <!-- Duplicate track for seamless infinite loop -->
+      <div class="carousel_home_section" aria-label="Aydins Realty development network">
+        <div class="marquee-container">
+          <div class="marquee-track" id="marqueeTrack1">
+            <!-- Dynamically populated from marquee-logos.json -->
+          </div>
+          <div class="marquee-track" id="marqueeTrack2">
+            <!-- Duplicate track for seamless infinite loop -->
+          </div>
         </div>
       </div>
     </section>
@@ -232,7 +216,7 @@
         <div class="personas_grid">
           <!-- Card 1: Commercial -->
           <div class="personas_column" data-persona>
-            <div class="personas_card"><a class="persona-link" href="/services/#tenants" aria-label="Explore this service"></a>
+            <div class="personas_card"><a class="persona-link" href="/done-deals/" data-sector="commercial" aria-label="Explore commercial developments"></a>
               <div class="personas_card_media">
                 <picture>
                   <source srcset="/assets/images/sector-commercial.webp" type="image/webp" />
@@ -254,12 +238,9 @@
 
           <!-- Card 2: Hospitality -->
           <div class="personas_column" data-persona>
-            <div class="personas_card"><a class="persona-link" href="/services/#investors" aria-label="Explore this service"></a>
+            <div class="personas_card"><a class="persona-link" href="/done-deals/" data-sector="hospitality" aria-label="Explore hospitality developments"></a>
               <div class="personas_card_media">
-                <picture>
-                  <source srcset="/assets/images/sector-hospitality.webp" type="image/webp" />
-                  <img src="/assets/images/sector-hospitality.jpg" alt="Hospitality Projects" class="personas_card_image" loading="lazy" />
-                </picture>
+                <img src="/assets/images/home-hospitality.webp" alt="Quiet resort terrace and pool overlooking the coast" class="personas_card_image" loading="lazy" />
                 <div class="personas_card_overlay"></div>
               </div>
               <div class="personas_card_content">
@@ -276,12 +257,9 @@
 
           <!-- Card 3: Plotted Residential -->
           <div class="personas_column" data-persona>
-            <div class="personas_card"><a class="persona-link" href="/services/#landowners" aria-label="Explore this service"></a>
+            <div class="personas_card"><a class="persona-link" href="/done-deals/" data-sector="residential" aria-label="Explore residential plots"></a>
               <div class="personas_card_media">
-                <picture>
-                  <source srcset="/assets/images/sector-residential-plots.webp" type="image/webp" />
-                  <img src="/assets/images/sector-residential-plots.jpg" alt="Residential Plotted Communities" class="personas_card_image" loading="lazy" />
-                </picture>
+                <img src="/assets/images/home-residential-plots.webp" alt="Aerial view of green land parcels beside a road" class="personas_card_image" loading="lazy" />
                 <div class="personas_card_overlay"></div>
               </div>
               <div class="personas_card_content">
@@ -298,12 +276,9 @@
 
           <!-- Card 4: Co-Investment -->
           <div class="personas_column" data-persona>
-            <div class="personas_card"><a class="persona-link" href="/services/#nri-wealth" aria-label="Explore this service"></a>
+            <div class="personas_card"><a class="persona-link" href="/done-deals/" data-sector="returns" aria-label="Explore investor returns"></a>
               <div class="personas_card_media">
-                <picture>
-                  <source srcset="/assets/images/sector-investor-returns.webp" type="image/webp" />
-                  <img src="/assets/images/sector-investor-returns.jpg" alt="Investor Partnerships" class="personas_card_image" loading="lazy" />
-                </picture>
+                <img src="/assets/images/home-investor-returns.webp" alt="Minimal architectural stairway in warm evening light" class="personas_card_image" loading="lazy" />
                 <div class="personas_card_overlay"></div>
               </div>
               <div class="personas_card_content">
@@ -317,6 +292,163 @@
               </div>
             </div>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <dialog class="sector-dialog" id="sectorDialog" aria-labelledby="sectorDialogTitle" aria-describedby="sectorDialogDescription">
+      <div class="sector-dialog-layout">
+        <div class="sector-dialog-media">
+          <img id="sectorDialogImage" src="/assets/images/sector-commercial.webp" alt="" decoding="async">
+          <span class="sector-dialog-image-label">AYDINS REALTY / ASSET CLASS</span>
+        </div>
+        <div class="sector-dialog-content">
+          <button class="sector-dialog-close" type="button" aria-label="Close asset class details"><span aria-hidden="true">×</span></button>
+          <div class="sector-dialog-main">
+            <span class="sector-dialog-kicker" id="sectorDialogKicker"></span>
+            <h2 id="sectorDialogTitle"></h2>
+            <p id="sectorDialogDescription"></p>
+            <ul id="sectorDialogPoints"></ul>
+          </div>
+          <div class="sector-dialog-footer">
+            <span>BUILDING VALUE / CREATING OPPORTUNITIES</span>
+            <a href="/done-deals/">EXPLORE OUR PROJECTS <span aria-hidden="true">↗</span></a>
+          </div>
+        </div>
+      </div>
+    </dialog>
+
+    <section class="home-audience-intro" id="who-we-work-with" aria-labelledby="audience-heading">
+      <div class="u-container">
+        <span class="u-subheading">Who We Work With</span>
+        <h2 class="u-heading-h2" id="audience-heading">Your place in what comes next<span aria-hidden="true">.</span></h2>
+        <p>Every property has more than one point of view. Explore the approach designed around yours.</p>
+      </div>
+    </section>
+
+    <section class="services_halves_section home-audience-section">
+      <div class="u-container">
+        <div class="home-audience-tabs" role="tablist" aria-label="Who we work with">
+          <button class="home-audience-tab" type="button" role="tab" id="audience-tab-investors" aria-controls="investors" aria-selected="true">01 <span>Investors</span></button>
+          <button class="home-audience-tab" type="button" role="tab" id="audience-tab-landowners" aria-controls="landowners" aria-selected="false" tabindex="-1">02 <span>Landowners</span></button>
+          <button class="home-audience-tab" type="button" role="tab" id="audience-tab-tenants" aria-controls="tenants" aria-selected="false" tabindex="-1">03 <span>Tenants</span></button>
+          <button class="home-audience-tab" type="button" role="tab" id="audience-tab-nri-wealth" aria-controls="nri-wealth" aria-selected="false" tabindex="-1">04 <span>NRI Wealth</span></button>
+        </div>
+        <div class="services_halves_collection_list">
+
+          <!-- Persona 1: Buyers & Investors -->
+          <div class="services_halves_collection_item" id="investors" role="tabpanel" aria-labelledby="audience-tab-investors" tabindex="0" data-audience-index="01 / 04">
+            <div class="services_halves_text_wrap">
+              <div class="services_halves_text_top">
+                <h2>Investors</h2>
+                <p class="services_halves_subtitle">You need solid yields, clear timelines and an asset that holds long-term value.</p>
+              </div>
+              <div class="services_halves_rich">
+                <p class="services_halves_rich_label">WHAT YOU CAN EXPECT:</p>
+                <ul class="services_halves_checklist">
+                  <li>Access to high-growth commercial and hospitality co-investment opportunities</li>
+                  <li>18% to 20% delivered and projected ROI with verified financial models</li>
+                  <li>6% regular rental yield paid directly to investors until project sale</li>
+                  <li>Statutory approvals, title clearances, and RERA compliance gathered upfront</li>
+                  <li>Transparent exit strategies and pre-structured resale mechanisms</li>
+                </ul>
+              </div>
+            </div>
+            <div class="services_halves_image_wrap" data-caption="A perspective on potential">
+              <img
+                src="/assets/images/persona-buyer.webp"
+                alt="Institutional & High-Net-Worth Investors"
+                class="services_halves_image"
+                loading="lazy"
+              />
+            </div>
+          </div>
+
+          <!-- Persona 2: Landowners & Joint Ventures -->
+          <div class="services_halves_collection_item" id="landowners" role="tabpanel" aria-labelledby="audience-tab-landowners" tabindex="0" data-audience-index="02 / 04">
+            <div class="services_halves_text_wrap">
+              <div class="services_halves_text_top">
+                <h2>Landowners</h2>
+                <p class="services_halves_subtitle">You need the right valuation, maximum land utility and reliable execution.</p>
+              </div>
+              <div class="services_halves_rich">
+                <p class="services_halves_rich_label">WHAT YOU CAN EXPECT:</p>
+                <ul class="services_halves_checklist">
+                  <li>Fair market valuation and detailed highest-and-best-use feasibility audits</li>
+                  <li>Transparent joint-development (JD) models with guaranteed developer equity</li>
+                  <li>Fast-track architectural planning and local government approvals</li>
+                  <li>Turnkey construction managed by seasoned civil engineers with zero compromises</li>
+                  <li>Reputable branding and positioning that commands maximum market premiums</li>
+                </ul>
+              </div>
+            </div>
+            <div class="services_halves_image_wrap" data-caption="A place to begin">
+              <img
+                src="/assets/images/persona-landlord.webp"
+                alt="Landowners & Strategic Joint Venture Partners"
+                class="services_halves_image"
+                loading="lazy"
+              />
+            </div>
+          </div>
+
+          <!-- Persona 3: Commercial Tenants & Brands -->
+          <!-- Photo source: Magnific / wirestock, free photo 8409149. -->
+          <div class="services_halves_collection_item" id="tenants" role="tabpanel" aria-labelledby="audience-tab-tenants" tabindex="0" data-audience-index="03 / 04">
+            <div class="services_halves_text_wrap">
+              <div class="services_halves_text_top">
+                <h2>Tenants</h2>
+                <p class="services_halves_subtitle">You need high-footfall locations, modern amenities and lease terms that empower growth.</p>
+              </div>
+              <div class="services_halves_rich">
+                <p class="services_halves_rich_label">WHAT YOU CAN EXPECT:</p>
+                <ul class="services_halves_checklist">
+                  <li>Strategic frontage along Thurakkal Bapputty Bypass and prime Malabar corridors</li>
+                  <li>Grade-A structural specifications with flexible floor layouts and high floor-to-ceiling heights</li>
+                  <li>Dedicated multi-level customer parking, power backup, and high-speed elevators</li>
+                  <li>Transparent lease agreements explained in plain language without ambiguous clauses</li>
+                  <li>Professional on-site property and facilities management</li>
+                </ul>
+              </div>
+            </div>
+            <div class="services_halves_image_wrap" data-caption="Space for what is next">
+              <img
+                src="/assets/images/persona-tenants-magnific.jpg"
+                alt="Modern commercial building with rhythmic glass storefronts and pale stone facade"
+                class="services_halves_image"
+                loading="lazy"
+              />
+            </div>
+          </div>
+
+          <!-- Persona 4: NRI Wealth & Co-Investors -->
+          <div class="services_halves_collection_item" id="nri-wealth" role="tabpanel" aria-labelledby="audience-tab-nri-wealth" tabindex="0" data-audience-index="04 / 04">
+            <div class="services_halves_text_wrap">
+              <div class="services_halves_text_top">
+                <h2>NRI Wealth</h2>
+                <p class="services_halves_subtitle">You need secure capital growth, steady rental yields and hassle-free management from abroad.</p>
+              </div>
+              <div class="services_halves_rich">
+                <p class="services_halves_rich_label">WHAT YOU CAN EXPECT:</p>
+                <ul class="services_halves_checklist">
+                  <li>Dedicated NRI desk with end-to-end foreign inward remittance coordination</li>
+                  <li>Real-time construction progress updates and quarterly site video reports</li>
+                  <li>Direct rental yield deposits into your designated NRE/NRO accounts</li>
+                  <li>Complete title due diligence verified by senior Kerala real estate counsels</li>
+                  <li>Comprehensive asset stewardship so you never have to deal with day-to-day operations</li>
+                </ul>
+              </div>
+            </div>
+            <div class="services_halves_image_wrap" data-caption="Connected from anywhere">
+              <img
+                src="/assets/images/persona-seller.webp"
+                alt="NRI Capital Wealth Management & Global Investors"
+                class="services_halves_image"
+                loading="lazy"
+              />
+            </div>
+          </div>
+
         </div>
       </div>
     </section>
@@ -356,12 +488,15 @@
               <div class="done-deals_component_inner">
                 <a href="/done-deals/aydin-tower/" class="clickable_link" aria-label="Aydin Tower Commercial Building"></a>
                 <div class="done-deals_component_image_wrap">
-                  <img
-                    src="/assets/images/project-aydin-tower.jpg"
-                    alt="Aydin Tower - Commercial Building Manjeri"
-                    class="done-deals_component_image is-featured-projects"
-                    loading="eager"
-                  />
+                  <picture>
+                    <source srcset="/assets/images/project-aydin-tower.webp" type="image/webp" />
+                    <img
+                      src="/assets/images/project-aydin-tower.jpg"
+                      alt="Aydin Tower - Commercial Building Manjeri"
+                      class="done-deals_component_image is-featured-projects"
+                      loading="eager"
+                    />
+                  </picture>
                 </div>
                 <div class="done-deals_component_icon_wrap">
                   <svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 69 68" fill="currentColor" class="u-svg">
@@ -391,12 +526,15 @@
               <div class="done-deals_component_inner">
                 <a href="/done-deals/pearl-tower/" class="clickable_link" aria-label="Aydins Pearl Tower"></a>
                 <div class="done-deals_component_image_wrap">
-                  <img
-                    src="/assets/images/project-pearl-tower.jpg"
-                    alt="Aydins Pearl Tower - Commercial Building Manjeri"
-                    class="done-deals_component_image is-featured-projects"
-                    loading="eager"
-                  />
+                  <picture>
+                    <source srcset="/assets/images/project-pearl-tower.webp" type="image/webp" />
+                    <img
+                      src="/assets/images/project-pearl-tower.jpg"
+                      alt="Aydins Pearl Tower - Commercial Building Manjeri"
+                      class="done-deals_component_image is-featured-projects"
+                      loading="eager"
+                    />
+                  </picture>
                 </div>
                 <div class="done-deals_component_icon_wrap">
                   <svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 69 68" fill="currentColor" class="u-svg">
@@ -509,153 +647,150 @@
     <!-- -------------------------------------------------------------
          6. "When you do a lot of deals..." (Laws & Notice Patterns Grid)
     -------------------------------------------------------------- -->
-    <section class="laws_home_section" id="advantage" data-bg-section="light" data-theme-section="light">
+    <section class="accordion_services_section home-capabilities-section" id="capabilities">
       <div class="u-container">
-        <div class="laws_home_header">
-          <h2 class="u-heading-h2">When you do a lot of deals, you start to notice patterns.</h2>
-          <span class="u-subheading">AYDINS' LAWS OF DEVELOPMENT</span>
+        <div style="margin-bottom: clamp(2rem, 4vw, 3.5rem);">
+          <span class="u-subheading">Core Capabilities</span>
+          <h2 class="u-heading-h2">Engineered for Value Across the Development Lifecycle</h2>
         </div>
 
-        <div class="laws_home_grid_outer">
-          <!-- Background divider layer showing through 1px grid column gaps to form vertical divider lines -->
-          <div class="laws_home_grid_bg" data-anim-scroll="mask-diagonal"></div>
+        <ul class="accordion_services_list">
 
-          <div class="laws_home_grid_wrap" data-anim-scroll="scaleX">
-            <div class="laws_home_grid">
-              <!-- Law 1 (Row 1, Col 1) -->
-              <div class="laws_home_grid_item">
-                <div class="laws_home_grid_component">
-                  <div class="laws_home_grid_inner">
-                    <p class="law_rule_text">A deal that is 99% done is not done.</p>
-                    <p class="law_explanation_text">That 1% is everything.</p>
-                  </div>
-                  <div class="laws_home_grid_component_border" data-anim-target="scaleX"></div>
+          <!-- Accordion Item 1 -->
+          <li class="accordion_services_item is-active" data-accordion="item">
+            <div class="accordion_services_divider_highlight"></div>
+            <button class="accordion_services_item_inner" aria-expanded="true">
+              <div class="accordion_col_icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M3 21h18M3 7v14M21 7v14M6 11h4M6 15h4M14 11h4M14 15h4M9 3h6v4H9z"></path>
+                </svg>
+              </div>
+              <div class="accordion_col_title">
+                <h3>Turnkey Commercial Development</h3>
+              </div>
+              <div class="accordion_col_content">
+                <div class="accordion_content_inner">
+                  <p class="accordion_services_paragraph">
+                    Complete masterplanning, architectural design, and civil construction of landmark retail, office, and mixed-use commercial buildings. We handle engineering audits, structural stability, and superior architectural finishes that stand up to decades of rigorous commercial use.
+                    <span class="accordion_paragraph_accent">How we add value: We compress build timelines, control costs, and deliver projects on schedule.</span>
+                  </p>
                 </div>
               </div>
-
-              <!-- Law 2 (Row 1, Col 2) -->
-              <div class="laws_home_grid_item">
-                <div class="laws_home_grid_component">
-                  <div class="laws_home_grid_inner">
-                    <p class="law_rule_text">Strategy changes with the street.</p>
-                    <p class="law_explanation_text">The town-centre investor and bypass commercial buyer are not the same person.</p>
-                  </div>
-                  <div class="laws_home_grid_component_border" data-anim-target="scaleX"></div>
+              <div class="accordion_col_toggle">
+                <div class="accordion_toggle_icon">
+                  <span class="accordion_toggle_line is-h"></span>
+                  <span class="accordion_toggle_line is-v"></span>
                 </div>
               </div>
+            </button>
+          </li>
 
-              <!-- Law 3 (Row 1, Col 3) -->
-              <div class="laws_home_grid_item">
-                <div class="laws_home_grid_component">
-                  <div class="laws_home_grid_inner">
-                    <p class="law_rule_text">Your developer should know the zoning, the yield, and the exit.</p>
-                    <p class="law_explanation_text">Not just the architectural elevations.</p>
-                  </div>
-                  <div class="laws_home_grid_component_border" data-anim-target="scaleX"></div>
+          <!-- Accordion Item 2 -->
+          <li class="accordion_services_item" data-accordion="item">
+            <div class="accordion_services_divider_highlight"></div>
+            <button class="accordion_services_item_inner" aria-expanded="false">
+              <div class="accordion_col_icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                </svg>
+              </div>
+              <div class="accordion_col_title">
+                <h3>Commercial Leasing &amp; Tenant Mix</h3>
+              </div>
+              <div class="accordion_col_content">
+                <div class="accordion_content_inner">
+                  <p class="accordion_services_paragraph">
+                    Strategic tenant acquisition across banking institutions, retail anchors, healthcare facilities, and corporate offices. We curate tenant mixes that generate consistent footfall, ensure strong lease covenants, and sustain high rental yields over multi-year terms.
+                    <span class="accordion_paragraph_accent">How we add value: We pre-lease prime spaces before structural completion, minimizing vacant carrying periods.</span>
+                  </p>
                 </div>
               </div>
-
-              <!-- Law 4 (Row 2, Col 1) -->
-              <div class="laws_home_grid_item">
-                <div class="laws_home_grid_component">
-                  <div class="laws_home_grid_inner">
-                    <p class="law_rule_text">If you have to lean out the window to see the mountain, it’s not a mountain view.</p>
-                    <p class="law_explanation_text">A good view should not require imagination.</p>
-                  </div>
-                  <div class="laws_home_grid_component_border" data-anim-target="scaleX"></div>
+              <div class="accordion_col_toggle">
+                <div class="accordion_toggle_icon">
+                  <span class="accordion_toggle_line is-h"></span>
+                  <span class="accordion_toggle_line is-v"></span>
                 </div>
               </div>
+            </button>
+          </li>
 
-              <!-- Law 5 (Row 2, Col 2) -->
-              <div class="laws_home_grid_item">
-                <div class="laws_home_grid_component">
-                  <div class="laws_home_grid_inner">
-                    <p class="law_rule_text">Client matters are not public matters.</p>
-                    <p class="law_explanation_text">Discretion is part of the service.</p>
-                  </div>
-                  <div class="laws_home_grid_component_border" data-anim-target="scaleX"></div>
+          <!-- Accordion Item 3 -->
+          <li class="accordion_services_item" data-accordion="item">
+            <div class="accordion_services_divider_highlight"></div>
+            <button class="accordion_services_item_inner" aria-expanded="false">
+              <div class="accordion_col_icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                </svg>
+              </div>
+              <div class="accordion_col_title">
+                <h3>Hospitality &amp; Experiential Living</h3>
+              </div>
+              <div class="accordion_col_content">
+                <div class="accordion_content_inner">
+                  <p class="accordion_services_paragraph">
+                    Conceptualizing and developing luxury wellness retreats and resort communities that cater to Kerala’s booming domestic and international tourism economy. We integrate wellness facilities, landscaped leisure spaces, and sustainable architecture to deliver high-margin destination assets.
+                    <span class="accordion_paragraph_accent">How we add value: Distinctive architectural signatures that drive year-round occupancy and premium ADRs.</span>
+                  </p>
                 </div>
               </div>
-
-              <!-- Law 6 (Row 2, Col 3) -->
-              <div class="laws_home_grid_item">
-                <div class="laws_home_grid_component">
-                  <div class="laws_home_grid_inner">
-                    <p class="law_rule_text">If the lease is not understood, the asset is not understood.</p>
-                    <p class="law_explanation_text">The real value is written in the fine print.</p>
-                  </div>
-                  <div class="laws_home_grid_component_border" data-anim-target="scaleX"></div>
+              <div class="accordion_col_toggle">
+                <div class="accordion_toggle_icon">
+                  <span class="accordion_toggle_line is-h"></span>
+                  <span class="accordion_toggle_line is-v"></span>
                 </div>
               </div>
+            </button>
+          </li>
 
-              <!-- Law 7 (Row 3, Col 1) -->
-              <div class="laws_home_grid_item">
-                <div class="laws_home_grid_component">
-                  <div class="laws_home_grid_inner">
-                    <p class="law_rule_text">The most expensive mistake is rushing.</p>
-                    <p class="law_explanation_text">The second most expensive is hesitating.</p>
-                  </div>
-                  <div class="laws_home_grid_component_border" data-anim-target="scaleX"></div>
+          <!-- Accordion Item 4 -->
+          <li class="accordion_services_item" data-accordion="item">
+            <div class="accordion_services_divider_highlight"></div>
+            <button class="accordion_services_item_inner" aria-expanded="false">
+              <div class="accordion_col_icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                </svg>
+              </div>
+              <div class="accordion_col_title">
+                <h3>Development Investment Partnerships</h3>
+              </div>
+              <div class="accordion_col_content">
+                <div class="accordion_content_inner">
+                  <p class="accordion_services_paragraph">
+                    We bring domestic and NRI investors into select commercial, hospitality, and residential developments that we plan, build, and deliver. Each opportunity is tied to a defined project, with clear milestones, ownership terms, and an agreed exit approach.
+                    <span class="accordion_paragraph_accent">How we add value: We develop the property, coordinate construction, and keep partners informed as the project progresses.</span>
+                  </p>
                 </div>
               </div>
-
-              <!-- Law 8 (Row 3, Col 2) -->
-              <div class="laws_home_grid_item">
-                <div class="laws_home_grid_component">
-                  <div class="laws_home_grid_inner">
-                    <p class="law_rule_text">Trust makes the deal.</p>
-                    <p class="law_explanation_text">The contract protects it.</p>
-                  </div>
-                  <div class="laws_home_grid_component_border" data-anim-target="scaleX"></div>
+              <div class="accordion_col_toggle">
+                <div class="accordion_toggle_icon">
+                  <span class="accordion_toggle_line is-h"></span>
+                  <span class="accordion_toggle_line is-v"></span>
                 </div>
               </div>
+            </button>
+          </li>
 
-              <!-- Law 9 (Row 3, Col 3) -->
-              <div class="laws_home_grid_item">
-                <div class="laws_home_grid_component">
-                  <div class="laws_home_grid_inner">
-                    <p class="law_rule_text">Most deals don’t fail on price.</p>
-                    <p class="law_explanation_text">They fail on expectations.</p>
-                  </div>
-                  <div class="laws_home_grid_component_border" data-anim-target="scaleX"></div>
-                </div>
-              </div>
+        </ul>
+      </div>
+    </section>
 
-              <!-- Law 10 (Row 4, Col 1) -->
-              <div class="laws_home_grid_item">
-                <div class="laws_home_grid_component">
-                  <div class="laws_home_grid_inner">
-                    <p class="law_rule_text">“Not in a rush” usually means “Not at that price.”</p>
-                    <p class="law_explanation_text">Timing often hides the real objection.</p>
-                  </div>
-                  <div class="laws_home_grid_component_border" data-anim-target="scaleX"></div>
-                </div>
-              </div>
-
-              <!-- Law 11 (Row 4, Col 2) -->
-              <div class="laws_home_grid_item">
-                <div class="laws_home_grid_component">
-                  <div class="laws_home_grid_inner">
-                    <p class="law_rule_text">A comp without context is just gossip.</p>
-                    <p class="law_explanation_text">Numbers mean nothing without the story behind them.</p>
-                  </div>
-                  <div class="laws_home_grid_component_border" data-anim-target="scaleX"></div>
-                </div>
-              </div>
-
-              <!-- Law 12 (Row 4, Col 3) -->
-              <div class="laws_home_grid_item">
-                <div class="laws_home_grid_component">
-                  <div class="laws_home_grid_inner">
-                    <p class="law_rule_text">Never make the brochure prettier than the building.</p>
-                    <p class="law_explanation_text">Tell the truth in words and media.</p>
-                  </div>
-                  <div class="laws_home_grid_component_border" data-anim-target="scaleX"></div>
-                </div>
-              </div>
-            </div>
+    <section class="home-generic-section">
+      <div class="u-container home-generic-layout">
+          <div class="home-generic-copy">
+            <h2 class="u-heading-h2">
+              We don’t build generic properties on purpose.
+            </h2>
+            <p>
+              Every development in our pipeline is chosen strictly for high-yield fundamentals, transit connectivity, and capital upside. Tell us your criteria and we will show you opportunities before they hit the open market.
+            </p>
           </div>
-        </div>
+          <div class="home-generic-action">
+            <a href="/contact/" class="rio-btn-primary">
+              <span>EXPLORE PRIVATE PIPELINE</span>
+            </a>
+          </div>
       </div>
     </section>
 
@@ -666,8 +801,8 @@
       <div class="u-container">
         <div class="full-image_layout u-ratio-2-1" data-anim-scroll="scrub-scale">
           <img
-            src="/assets/images/project-aydins-heaven.jpg"
-            alt="Aydins Heaven Luxury Development"
+            src="/assets/images/home-last-image.webp"
+            alt="Black and white architectural view looking up at a modern building"
             class="full-image_image"
             loading="eager"
           />
@@ -704,7 +839,7 @@
     <!-- -------------------------------------------------------------
          9. Footer
     -------------------------------------------------------------- -->
-    <footer class="reference-footer"><div class="reference-footer-top"><a class="reference-email" href="mailto:hello@aydinsrealty.com">hello@aydinsrealty.com <span aria-hidden="true">↗</span></a><div class="reference-footer-columns"><div><h3 class="u-sr-only">Contact Details</h3><a href="tel:+919847000000">+91 98470 00000</a><p>Thurakkal Bapputty Bypass<br>Manjeri<br>Kerala, India</p></div><nav aria-label="Footer navigation"><a href="/">Home</a><a href="/meet-the-team/">Meet the team</a><a href="/done-deals/">Done Deals</a><a href="/services/">Services</a><a href="/contact/">Get in Touch</a></nav></div></div><a class="reference-footer-brand" href="/">AYDINS REALTY</a><p class="reference-footer-description"><strong>Building Value, Creating Opportunities.</strong><span class="footer-pillars">Invest &nbsp;|&nbsp; Grow &nbsp;|&nbsp; Build Tomorrow</span>Commercial, hospitality and residential developments across Kerala.</p></footer>
+    <footer class="reference-footer"><div class="reference-footer-top"><a class="reference-email" href="mailto:hello@aydinsrealty.com">hello@aydinsrealty.com <span aria-hidden="true">↗</span></a><div class="reference-footer-columns"><div><h3 class="u-sr-only">Contact Details</h3><a href="tel:+919847000000">+91 98470 00000</a><p>Thurakkal Bapputty Bypass<br>Manjeri<br>Kerala, India</p></div><nav aria-label="Footer navigation"><a href="/">Home</a><a href="/meet-the-team/">Meet the team</a><a href="/done-deals/">Done Deals</a><a href="/contact/">Get in Touch</a></nav></div></div><a class="reference-footer-brand" href="/">AYDINS REALTY</a><p class="reference-footer-description"><strong>Building Value, Creating Opportunities.</strong><span class="footer-pillars">Invest &nbsp;|&nbsp; Grow &nbsp;|&nbsp; Build Tomorrow</span>Commercial, hospitality and residential developments across Kerala.</p></footer>
 
   </div>
 

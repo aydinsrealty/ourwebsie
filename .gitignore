@@ -11,6 +11,7 @@ lerna-debug.log*
 node_modules/
 dist/
 dist-ssr/
+.vite/
 
 # Environment and local configs
 .env
@@ -29,6 +30,12 @@ Thumbs.db
 # Cloudflare / Wrangler cache
 .wrangler/
 
+# Local agent worktrees and metadata
+.kilo/
+
+# Optional generated media
+public/assets/videos/
+
 # Temporary / raw scratch files not referenced by the site
 *.mp4
 gardencitynight.png
@@ -39,3 +46,11 @@ aydins-images 2/
 peraltower/
 newimage/
 newimagess/
+firstframe.jpg
+review-assets/
+
+# Hero videos used by the home page
+!public/assets/videos/
+public/assets/videos/*
+!public/assets/videos/hero-forward-48.mp4
+!public/assets/videos/hero-reverse-48.mp4
