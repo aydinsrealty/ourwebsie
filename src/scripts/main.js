@@ -461,52 +461,31 @@ if (hasHeroVideo && !reducedMotion) {
     const token = ++switchToken;
     switching = true;
     activeVideo.pause();
-
     const nextVideo = nextDirection < 0 ? heroReverseVideo : heroLoopVideo;
-    const duration = (heroLoopVideo.duration && !isNaN(heroLoopVideo.duration) && heroLoopVideo.duration > 0)
-      ? heroLoopVideo.duration
-      : heroDuration;
-
-    // Current visual position on the forward timeline (0.0s to duration)
-    let currentForwardPos = activeVideo === heroLoopVideo
+    const duration = heroLoopVideo.duration || heroDuration;
+    const position = activeVideo === heroLoopVideo
       ? activeVideo.currentTime
-      : (duration - activeVideo.currentTime);
-    currentForwardPos = Math.max(0, Math.min(duration, currentForwardPos));
+      : duration - activeVideo.currentTime;
+    const nextTime = Math.min(Math.max(nextDirection < 0 ? duration - position : position, 0),
+      Math.max(0, (nextVideo.duration || duration) - 0.04));
 
-    // In reverse video, time T corresponds to visual frame (duration - T).
-    // Therefore, to resume backwards from currentForwardPos, reverse currentTime is (duration - currentForwardPos).
-    // In forward video, time T corresponds to visual frame T.
-    const targetTime = nextDirection < 0
-      ? Math.max(0, Math.min(duration - 0.04, duration - currentForwardPos))
-      : Math.max(0, Math.min(duration - 0.04, currentForwardPos));
-
-    // Ensure nextVideo has data before setting currentTime
-    if (nextVideo.readyState < 2) {
-      nextVideo.load();
-      await new Promise(resolve => {
-        const onData = () => { nextVideo.removeEventListener('loadeddata', onData); resolve(); };
-        nextVideo.addEventListener('loadeddata', onData, { once: true });
-        setTimeout(resolve, 500);
-      });
+    // Decode the matching frame before showing the other video. Seeking on
+    // every wheel event would force repeated keyframe decodes and visible jumps.
+    if (nextVideo.readyState < 1) {
+      await Promise.race([
+        new Promise(resolve => nextVideo.addEventListener('loadedmetadata', resolve, { once: true })),
+        new Promise(resolve => setTimeout(resolve, 1200)),
+      ]);
     }
     if (token !== switchToken) return;
-
-    // Seek to the exact matching visual frame
-    try {
-      nextVideo.currentTime = targetTime;
-    } catch (_) {}
-
-    // Wait for the exact seeked frame to decode
-    if (nextVideo.seeking) {
-      await new Promise(resolve => {
-        const onSeeked = () => { nextVideo.removeEventListener('seeked', onSeeked); resolve(); };
-        nextVideo.addEventListener('seeked', onSeeked, { once: true });
-        setTimeout(resolve, 250);
-      });
+    nextVideo.currentTime = nextTime;
+    if (nextVideo.seeking || nextVideo.readyState < 2) {
+      await Promise.race([
+        new Promise(resolve => nextVideo.addEventListener('seeked', resolve, { once: true })),
+        new Promise(resolve => setTimeout(resolve, 1200)),
+      ]);
     }
     if (token !== switchToken) return;
-
-    // Swap active video and opacities smoothly
     activeVideo.pause();
     activeVideo = nextVideo;
     activeVideo.playbackRate = playbackRate;
@@ -514,7 +493,6 @@ if (hasHeroVideo && !reducedMotion) {
     heroReverseVideo.style.opacity = nextVideo === heroReverseVideo ? '1' : '0';
     direction = nextDirection;
     switching = false;
-
     if (desiredDirection !== direction && (heroTrigger.isActive || lockDirection)) {
       switchDirection(desiredDirection);
       return;
@@ -568,25 +546,14 @@ async function initLoader() {
     gsap.fromTo(logoEl, { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' });
   }
 
-  // Pre-warm both videos early so seek on direction switch is instantaneous
-  if (hasHeroVideo) {
-    heroLoopVideo.load();
-    heroReverseVideo.load();
-  }
-
   const domImages = Array.from(document.querySelectorAll('img:not([data-preloader-logo])'));
   totalTasks = domImages.length;
   completedTasks = 0;
   setPreloadProgress(0);
 
   const domImagesPromise = Promise.all(domImages.map(preloadDomImage));
-  const videosPromise = hasHeroVideo ? Promise.all([
-    new Promise(r => { if (heroLoopVideo.readyState >= 2) return r(); heroLoopVideo.addEventListener('loadeddata', r, { once: true }); setTimeout(r, 4000); }),
-    new Promise(r => { if (heroReverseVideo.readyState >= 2) return r(); heroReverseVideo.addEventListener('loadeddata', r, { once: true }); setTimeout(r, 4000); })
-  ]) : Promise.resolve();
-
   await Promise.race([
-    Promise.all([document.fonts.ready, domImagesPromise, videosPromise]),
+    Promise.all([document.fonts.ready, domImagesPromise]),
     new Promise(r => setTimeout(r, 25000))
   ]);
 
