@@ -443,6 +443,8 @@ if (hasHeroVideo && !reducedMotion) {
 
   function pauseHero() {
     if (lockDirection) return;
+    switchToken++;
+    switching = false;
     handoffToken++;
     handoffPending = false;
     if (heroCamera) {
@@ -462,30 +464,71 @@ if (hasHeroVideo && !reducedMotion) {
     switching = true;
     activeVideo.pause();
     const nextVideo = nextDirection < 0 ? heroReverseVideo : heroLoopVideo;
+    // The other film may still be downloading on a live connection. Keep the
+    // current frame visible until its matching frame has actually decoded.
+    if (nextVideo.readyState < 1) {
+      nextVideo.load();
+      await new Promise(resolve => {
+        nextVideo.addEventListener('loadedmetadata', resolve, { once: true });
+        nextVideo.addEventListener('error', resolve, { once: true });
+      });
+    }
+    if (token !== switchToken || nextVideo.error) {
+      if (token === switchToken) { switching = false; releaseHero(); }
+      return;
+    }
     const duration = heroLoopVideo.duration || heroDuration;
     const position = activeVideo === heroLoopVideo
       ? activeVideo.currentTime
       : duration - activeVideo.currentTime;
     const nextTime = Math.min(Math.max(nextDirection < 0 ? duration - position : position, 0),
-      Math.max(0, (nextVideo.duration || duration) - 0.04));
-
-    // Decode the matching frame before showing the other video. Seeking on
-    // every wheel event would force repeated keyframe decodes and visible jumps.
-    if (nextVideo.readyState < 1) {
-      await Promise.race([
-        new Promise(resolve => nextVideo.addEventListener('loadedmetadata', resolve, { once: true })),
-        new Promise(resolve => setTimeout(resolve, 1200)),
-      ]);
+      Math.max(0, nextVideo.duration - 0.04));
+    const matchingFrameReady = await new Promise(resolve => {
+      let frame = 0;
+      let lastRetry = 0;
+      const frameTolerance = 0.03;
+      let seekCompleted = !nextVideo.ended &&
+        Math.abs(nextVideo.currentTime - nextTime) < frameTolerance;
+      const onSeeked = () => { seekCompleted = true; };
+      const finish = ready => {
+        cancelAnimationFrame(frame);
+        nextVideo.removeEventListener('seeked', onSeeked);
+        resolve(ready);
+      };
+      nextVideo.addEventListener('seeked', onSeeked);
+      if (!seekCompleted) nextVideo.currentTime = nextTime;
+      const check = () => {
+        if (token !== switchToken || nextVideo.error) return finish(false);
+        if (seekCompleted && !nextVideo.ended && !nextVideo.seeking &&
+            nextVideo.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA &&
+            Math.abs(nextVideo.currentTime - nextTime) < frameTolerance) return finish(true);
+        // Some hosts serve MP4s without a seekable range until more bytes are
+        // buffered. Retry the exact seek only once that frame is available.
+        if (!nextVideo.seeking && (nextVideo.ended ||
+            Math.abs(nextVideo.currentTime - nextTime) >= frameTolerance) &&
+            performance.now() - lastRetry > 350) {
+          for (let i = 0; i < nextVideo.buffered.length; i++) {
+            if (nextVideo.buffered.start(i) <= nextTime && nextVideo.buffered.end(i) >= nextTime) {
+              nextVideo.currentTime = nextTime;
+              lastRetry = performance.now();
+              break;
+            }
+          }
+        }
+        frame = requestAnimationFrame(check);
+      };
+      check();
+    });
+    if (!matchingFrameReady) {
+      if (token === switchToken) { switching = false; releaseHero(); }
+      return;
     }
-    if (token !== switchToken) return;
-    nextVideo.currentTime = nextTime;
-    if (nextVideo.seeking || nextVideo.readyState < 2) {
-      await Promise.race([
-        new Promise(resolve => nextVideo.addEventListener('seeked', resolve, { once: true })),
-        new Promise(resolve => setTimeout(resolve, 1200)),
-      ]);
+    if (desiredDirection !== nextDirection) {
+      switching = false;
+      if (desiredDirection === direction) playHero();
+      else switchDirection(desiredDirection);
+      return;
     }
-    if (token !== switchToken) return;
     activeVideo.pause();
     activeVideo = nextVideo;
     activeVideo.playbackRate = playbackRate;
@@ -509,7 +552,14 @@ if (hasHeroVideo && !reducedMotion) {
     playbackRate = Math.min(1.25, 1 + velocity / 80);
     activeVideo.playbackRate = playbackRate;
     desiredDirection = requestedDirection;
-    if (switching) return;
+    if (switching) {
+      if (requestedDirection === direction) {
+        switchToken++;
+        switching = false;
+        playHero();
+      }
+      return;
+    }
     if (requestedDirection !== direction) {
       switchDirection(requestedDirection);
     } else if (activeVideo.paused && !activeVideo.ended) {
