@@ -2,7 +2,7 @@ import Lenis from 'lenis';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SplitText } from 'gsap/SplitText';
-import marqueeLogos from './marquee-logos.json';
+import marqueeBrands from './marquee-brands.js';
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -566,6 +566,7 @@ initLoader();
 
 if(!reducedMotion) {
   gsap.utils.toArray('.u-heading-h2,.u-heading-h1').forEach(el=>{
+    if (matchMedia('(max-width: 767px)').matches && el.closest('.home-audience-intro')) return;
     gsap.from(el,{scrollTrigger:{trigger:el,start:'top 92%',once:true},y:24,opacity:0,duration:.7,ease:'power2.out'});
   });
 }
@@ -574,7 +575,10 @@ if(reducedMotion) {
 }
 for (const id of ['marqueeTrack1','marqueeTrack2']) {
  const track=document.getElementById(id);
- if(track) track.innerHTML=marqueeLogos.map(svg=>`<div class="marquee-item">${svg}</div>`).join('');
+ if(track) {
+   const brands=marqueeBrands.map(mark=>`<div class="marquee-item">${mark}</div>`).join('');
+   track.innerHTML=brands.repeat(2);
+ }
 }
 const slider=document.getElementById('featuredSlider');
 if(slider) {
@@ -605,7 +609,6 @@ if(work) {
  items.forEach(item=>{
   item.addEventListener('mouseenter',()=>activate(item));
   item.addEventListener('focusin',()=>activate(item));
-  item.addEventListener('click',e=>{e.preventDefault();activate(item);});
  });
  if(items[0])activate(items[0]);
  setView('gallery');
@@ -822,8 +825,9 @@ if (!reducedMotion) {
         invalidateOnRefresh: true,
       },
     });
+    const lawEntranceX = matchMedia('(max-width: 767px)').matches ? 0 : (index % 2 ? 64 : -64);
     reveal
-      .fromTo(component, { x: index % 2 ? 64 : -64, opacity: 0.62 }, { x: 0, opacity: 1, duration: 1, ease: 'none' }, 0)
+      .fromTo(component, { x: lawEntranceX, opacity: 0.62 }, { x: 0, opacity: 1, duration: 1, ease: 'none' }, 0)
       .fromTo(numberText, { yPercent: 110 }, { yPercent: 0, duration: 0.8, ease: 'none' }, 0.08)
       .fromTo(border, { scaleX: 0 }, { scaleX: 1, transformOrigin: index % 2 ? 'right' : 'left', duration: 0.8, ease: 'none' }, 0.16);
   });
@@ -915,12 +919,6 @@ if (sectorDialog?.showModal) {
       image: '/assets/images/home-residential-plots.webp', alt: 'Green land parcels and a road seen from above',
       points: ['Masterplanned neighbourhoods', 'Connected streets and open spaces', 'Room to grow for the long term'],
     },
-    returns: {
-      number: '04 / INVESTMENT', title: 'Investor Returns',
-      description: 'Development opportunities grounded in clear project fundamentals. We bring together location, delivery discipline, and a defined investment approach to create measurable value.',
-      image: '/assets/images/home-investor-returns.webp', alt: 'Minimal architectural stairway in evening light',
-      points: ['Project-led investment structures', 'Transparent milestones and terms', 'A clear view of the path to value'],
-    },
   };
   const image = document.getElementById('sectorDialogImage');
   const kicker = document.getElementById('sectorDialogKicker');
@@ -977,6 +975,7 @@ if (audienceSection) {
   let autoTimer;
   let autoGeneration = 0;
   let storyReadyAt = performance.now();
+  const audienceReadTime = 8000;
   let isInView = false;
   let isKeyboardFocused = false;
   const stopAuto = () => {
@@ -993,7 +992,7 @@ if (audienceSection) {
       if (generation !== autoGeneration || audienceTransition || currentPanel !== activePanel || !isInView || document.hidden) return;
       const nextPanel = panels[(panels.indexOf(currentPanel) + 1) % panels.length];
       showAudience(nextPanel.id);
-    }, Math.max(0, storyReadyAt + 1000 - performance.now()));
+    }, Math.max(0, storyReadyAt + audienceReadTime - performance.now()));
   };
   const activateAudience = (activeTab, focus = false) => {
     const id = activeTab.getAttribute('aria-controls');
@@ -1106,11 +1105,12 @@ if (audienceSection) {
 if (!reducedMotion && document.querySelector('.home-audience-intro')) {
   const intro = document.querySelector('.home-audience-intro');
   const introRule = intro.querySelector('.u-container');
+  const compactAudienceIntro = matchMedia('(max-width: 767px)').matches;
   gsap.timeline({ scrollTrigger: { trigger: intro, start: 'top 84%', once: true } })
     .from(introRule, { '--audience-rule-scale': 0, duration: .95, ease: 'power3.out' }, 0)
     .from(intro.querySelector('.u-subheading'), { x: -32, autoAlpha: 0, duration: .65, ease: 'power3.out' }, .08)
-    .from(intro.querySelector('h2'), { y: 58, clipPath: 'inset(0 0 100% 0)', duration: .9, ease: 'power3.out' }, .16)
-    .from(intro.querySelector('p'), { y: 22, autoAlpha: 0, duration: .65, ease: 'power2.out' }, .48);
+    .from(intro.querySelector('h2'), { y: compactAudienceIntro ? 0 : 58, clipPath: 'inset(0 0 100% 0)', duration: .9, ease: 'power3.out' }, .16)
+    .from(intro.querySelector('p'), { y: compactAudienceIntro ? 0 : 22, autoAlpha: 0, duration: .65, ease: 'power2.out' }, .48);
 
   gsap.from('.home-audience-tabs', {
     scrollTrigger: { trigger: '.home-audience-tabs', start: 'top 90%', once: true },
@@ -1123,13 +1123,6 @@ if (!reducedMotion && document.querySelector('.home-audience-intro')) {
       .from(portfolio.querySelector('.u-subheading'), { x: -28, autoAlpha: 0, duration: .55, ease: 'power2.out' }, 0)
       .from(portfolio.querySelector('.u-heading-h2'), { y: 54, clipPath: 'inset(0 0 100% 0)', duration: .85, ease: 'power3.out' }, .1)
       .from(portfolio.querySelector('.done-deals_header_cta'), { y: 20, autoAlpha: 0, duration: .5, ease: 'power2.out' }, .45);
-    const firstProject = portfolio.querySelector('.featured-projects_collection_item');
-    if (firstProject) {
-      gsap.from(firstProject.querySelector('.done-deals_component_image_wrap'), {
-        scrollTrigger: { trigger: firstProject, start: 'top 92%', once: true },
-        clipPath: 'polygon(0 0, 16% 0, 0 100%, 0 100%)', duration: 1.1, ease: 'power3.inOut',
-      });
-    }
   }
 }
 

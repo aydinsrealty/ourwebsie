@@ -19,6 +19,7 @@ export default defineConfig({
         services: resolve(__dirname, 'services/index.html'),
         meetTheTeam: resolve(__dirname, 'meet-the-team/index.html'),
         contact: resolve(__dirname, 'contact/index.html'),
+        investorReturns: resolve(__dirname, 'investor-returns/index.html'),
       }
     }
   }

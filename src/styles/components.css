@@ -626,7 +626,7 @@ body.nav-active .bold-nav-full__link {
   display: flex;
   overflow: hidden;
   user-select: none;
-  gap: 3rem;
+  gap: 4rem;
   mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
   -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
 }
@@ -639,7 +639,7 @@ body.nav-active .bold-nav-full__link {
   animation: marquee 35s linear infinite;
 }
 
-.marquee-track:hover {
+.marquee-container:hover .marquee-track {
   animation-play-state: paused;
 }
 

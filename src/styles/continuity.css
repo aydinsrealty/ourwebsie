@@ -1157,6 +1157,64 @@ body.sector-dialog-open { overflow: hidden; }
   padding-top: clamp(20px, 2.5vw, 32px);
 }
 
+#about .marquee-item {
+  flex: 0 0 210px;
+  height: 100px;
+  color: #606060;
+}
+
+#about .marquee-item:hover { filter: grayscale(1); }
+
+#about .marquee-heaven-mark {
+  width: auto;
+  height: 90px;
+  mix-blend-mode: multiply;
+}
+
+#about .marquee-wordmark {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+  height: 100%;
+  font-family: var(--font-family-display);
+  line-height: 1;
+  white-space: nowrap;
+}
+
+#about .marquee-wordmark > span {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .23em;
+  margin-bottom: 7px;
+}
+
+#about .marquee-wordmark > strong {
+  font-size: 25px;
+  font-weight: 600;
+  letter-spacing: -.025em;
+}
+
+#about .marquee-mschool-mark {
+  width: 210px;
+  height: auto;
+  color: #606060;
+}
+
+/* Three asset classes keep the same overall card height as the former four. */
+#sectors .personas_grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+#sectors .personas_card { aspect-ratio: 1 / 1; }
+
+@media (max-width: 1024px) {
+  #sectors .personas_grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 700px) {
+  #sectors .personas_grid { grid-template-columns: minmax(0, 1fr); }
+  #sectors .personas_card { aspect-ratio: auto; }
+}
+
 #about .cta_heading_col h2 {
   font-size: clamp(3.2rem, 5vw, 5.5rem);
   line-height: 1.04;
@@ -1172,5 +1230,186 @@ body.sector-dialog-open { overflow: hidden; }
 
   #about .cta_heading_col h2 {
     font-size: clamp(2.55rem, 8vw, 4rem);
+  }
+}
+
+/* Phone layout: keep every story inside the viewport without changing the
+   desktop grid or its motion. */
+@media (max-width: 767px) {
+  .hero_home_section .hero_scroll_indicator {
+    top: calc(96px + env(safe-area-inset-top));
+    bottom: auto;
+  }
+
+  /* Keep the project label clear of the back control on narrow phones. */
+  .project_hero_overlay_content {
+    padding: calc(96px + env(safe-area-inset-top)) 20px 32px;
+  }
+
+  .project_hero_top_bar {
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .project_back_btn {
+    flex: 0 0 auto;
+    padding: 10px 12px;
+  }
+
+  .project_hero_badge {
+    min-width: 0;
+    max-width: 45%;
+    white-space: normal;
+    text-align: right;
+    line-height: 1.35;
+  }
+
+  /* A vector keeps diagonal arrows from becoming emoji on some phones. */
+  .home-audience-section .services_halves_checklist li::before,
+  .sector-dialog-main li::before {
+    content: '';
+    display: inline-block;
+    flex: 0 0 16px;
+    width: 16px;
+    height: 16px;
+    background: currentColor;
+    -webkit-mask: url('/assets/icons/arrow-up-right.svg') center / contain no-repeat;
+    mask: url('/assets/icons/arrow-up-right.svg') center / contain no-repeat;
+  }
+
+  .home-audience-section .services_halves_checklist li::before {
+    color: var(--swatch--yellow-500);
+  }
+
+  .sector-dialog-main li::before {
+    color: #ffea00;
+  }
+
+  .reference-email > span[aria-hidden="true"],
+  .reference-send > span[aria-hidden="true"],
+  .sector-dialog-footer a > span[aria-hidden="true"] {
+    display: inline-block;
+    flex: 0 0 auto;
+    width: var(--mobile-arrow-size, 20px);
+    height: var(--mobile-arrow-size, 20px);
+    font-size: 0;
+    vertical-align: middle;
+    background: currentColor;
+    -webkit-mask: url('/assets/icons/arrow-up-right.svg') center / contain no-repeat;
+    mask: url('/assets/icons/arrow-up-right.svg') center / contain no-repeat;
+  }
+
+  .reference-email > span[aria-hidden="true"] { --mobile-arrow-size: 24px; }
+  .sector-dialog-footer a > span[aria-hidden="true"] { --mobile-arrow-size: 16px; }
+
+  #about .cta_text_grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  #about .cta_heading_col,
+  #about .cta_content_col_left,
+  #about .cta_content_col_right {
+    grid-column: 1;
+    min-width: 0;
+    width: 100%;
+  }
+
+  #about .cta_heading_col h2 {
+    overflow-wrap: anywhere;
+  }
+
+  .personas_grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+
+  .personas_card {
+    aspect-ratio: auto;
+    min-height: 300px;
+    width: 100%;
+    padding: 20px;
+  }
+
+  .personas_card_title { font-size: clamp(26px, 8vw, 32px); }
+  .personas_card_desc { max-height: none; }
+
+  .home-audience-intro .u-container {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 14px;
+  }
+
+  .home-audience-intro .u-subheading,
+  .home-audience-intro .u-heading-h2,
+  .home-audience-intro p {
+    grid-column: 1;
+    min-width: 0;
+  }
+
+  .home-audience-intro .u-heading-h2 { margin-bottom: 0; }
+  .home-audience-intro p { max-width: none; }
+
+  .page-done-deals .laws_home_grid_component {
+    grid-template-columns: 48px minmax(0, 1fr);
+  }
+
+  .reference-footer-top { min-width: 0; }
+  .reference-email { white-space: normal; overflow-wrap: anywhere; }
+
+  .aydin_lightbox_content {
+    width: 100%;
+    height: 100dvh;
+    padding: 72px 16px 100px;
+  }
+
+  .aydin_lightbox_stage { width: 100%; }
+
+  .aydin_lightbox_stage img {
+    max-width: 100%;
+    max-height: calc(100dvh - 250px);
+  }
+
+  .aydin_lightbox_meta {
+    width: 100%;
+    max-width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+    padding: 10px 12px;
+  }
+
+  .aydin_lightbox_meta .apple_tag_title,
+  .aydin_lightbox_meta .editorial_tag_title {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+  }
+
+  .aydin_lightbox_close {
+    top: calc(16px + env(safe-area-inset-top));
+    right: 16px;
+  }
+
+  .aydin_lightbox_prev,
+  .aydin_lightbox_next {
+    top: auto;
+    bottom: calc(18px + env(safe-area-inset-bottom));
+    transform: none;
+    width: 48px;
+    height: 48px;
+  }
+
+  .aydin_lightbox_prev { left: 24px; }
+  .aydin_lightbox_next { right: 24px; }
+}
+
+@media (max-width: 359px) {
+  .project_kpi_number {
+    font-size: clamp(1.7rem, 8.5vw, 2.1rem);
+    white-space: nowrap;
+  }
+
+  #about .cta_heading_col h2 {
+    font-size: 2rem;
+    overflow-wrap: normal;
   }
 }
