@@ -7,6 +7,7 @@ import marqueeBrands from './marquee-brands.js';
 gsap.registerPlugin(ScrollTrigger, SplitText);
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const isPhoneLayout = matchMedia('(max-width: 767px)').matches;
+const isTouchDevice = matchMedia('(pointer: coarse)').matches;
 const lenis = new Lenis({
   duration: 0.78,
   wheelMultiplier: 0.98,
@@ -387,11 +388,18 @@ if (hasHeroVideo && !reducedMotion) {
     }
   }, { capture: true, passive: false });
   let touchStartY = 0;
+  let touchDirectionAnchorY = 0;
+  let touchGestureDirection = 0;
   window.addEventListener('touchstart', event => {
-    touchStartY = event.touches[0]?.clientY || 0;
+    if (event.touches.length !== 1) return;
+    touchStartY = event.touches[0].clientY;
+    touchDirectionAnchorY = touchStartY;
+    touchGestureDirection = 0;
   }, { passive: true });
   window.addEventListener('touchmove', event => {
-    const delta = touchStartY - (event.touches[0]?.clientY || 0);
+    if (event.touches.length !== 1) return;
+    const currentY = event.touches[0].clientY;
+    const delta = touchStartY - currentY;
     if (leavingHero) {
       if (event.cancelable) event.preventDefault();
       return;
@@ -401,11 +409,36 @@ if (hasHeroVideo && !reducedMotion) {
       goToAbout();
       return;
     }
+    if (isTouchDevice && lockDirection) {
+      // Keep native touch scrolling from carrying the pinned hero out of view
+      // while the opposite film seeks to its matching frame. Follow a change
+      // in finger direction even within the same swipe.
+      if (event.cancelable) event.preventDefault();
+      if ((touchGestureDirection > 0 && currentY < touchDirectionAnchorY) ||
+          (touchGestureDirection < 0 && currentY > touchDirectionAnchorY)) {
+        touchDirectionAnchorY = currentY;
+      }
+      const movement = touchDirectionAnchorY - currentY;
+      if (Math.abs(movement) > 16) {
+        const nextDirection = Math.sign(movement);
+        touchGestureDirection = nextDirection;
+        touchDirectionAnchorY = currentY;
+        if (nextDirection !== lockDirection) {
+          setHeroDirection(nextDirection, 20);
+          lockDirection = nextDirection;
+        }
+      }
+      return;
+    }
     if (lockDirection && Math.abs(delta) > 12 && Math.sign(delta) === -lockDirection) {
       releaseHero(true);
       setHeroDirection(Math.sign(delta), 20);
     }
   }, { capture: true, passive: false });
+  window.addEventListener('touchend', event => {
+    if (event.touches.length === 0) touchGestureDirection = 0;
+  }, { passive: true });
+  window.addEventListener('touchcancel', () => { touchGestureDirection = 0; }, { passive: true });
   window.addEventListener('keydown', event => {
     if (leavingHero) {
       if (['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End', ' '].includes(event.key)) event.preventDefault();
@@ -547,7 +580,7 @@ if (hasHeroVideo && !reducedMotion) {
   }
 
   setHeroDirection = (nextDirection, velocity = 0) => {
-    if (!heroTrigger.isActive) return;
+    if (!heroTrigger.isActive && !(isTouchDevice && lockDirection)) return;
     const requestedDirection = nextDirection < 0 ? -1 : 1;
     if (lockDirection && requestedDirection === lockDirection) return;
     playbackRate = Math.min(1.25, 1 + velocity / 80);
