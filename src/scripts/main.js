@@ -11,8 +11,7 @@ const lenis = new Lenis({
   duration: 0.78,
   wheelMultiplier: 0.98,
   smoothWheel: !reducedMotion,
-  syncTouch: isPhoneLayout && !reducedMotion,
-  touchInertiaExponent: isPhoneLayout ? 1.3 : 1.7,
+  smoothTouch: false,
   anchors: true,
   easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
 });
@@ -232,12 +231,9 @@ if (hasHeroVideo && !reducedMotion) {
 
   function heroBoundary(edge) {
     const wrap = document.getElementById('heroScrollPin');
-    const viewportHeight = isPhoneLayout
-      ? document.querySelector('.hero_home_section')?.offsetHeight || window.innerHeight
-      : window.innerHeight;
     return edge < 0
       ? wrap.offsetTop + 80
-      : wrap.offsetTop + wrap.offsetHeight - viewportHeight - 80;
+      : wrap.offsetTop + wrap.offsetHeight - window.innerHeight - 80;
   }
 
   function heroPosition() {
@@ -402,13 +398,10 @@ if (hasHeroVideo && !reducedMotion) {
     }
     if (delta > 12 && readyForNextSection()) {
       if (event.cancelable) event.preventDefault();
-      event.stopImmediatePropagation();
       goToAbout();
       return;
     }
     if (lockDirection && Math.abs(delta) > 12 && Math.sign(delta) === -lockDirection) {
-      if (event.cancelable) event.preventDefault();
-      event.stopImmediatePropagation();
       releaseHero(true);
       setHeroDirection(Math.sign(delta), 20);
     }
@@ -604,11 +597,7 @@ async function initLoader() {
     gsap.fromTo(logoEl, { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' });
   }
 
-  // On phones, waiting for every below-the-fold photo competes with both hero
-  // films and makes the first swipe feel unresponsive on a mobile connection.
-  const domImages = isPhoneLayout
-    ? [heroCamera].filter(Boolean)
-    : Array.from(document.querySelectorAll('img:not([data-preloader-logo])'));
+  const domImages = Array.from(document.querySelectorAll('img:not([data-preloader-logo])'));
   totalTasks = domImages.length;
   completedTasks = 0;
   setPreloadProgress(0);
