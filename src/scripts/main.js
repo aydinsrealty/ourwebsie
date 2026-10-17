@@ -507,6 +507,23 @@ if (hasHeroVideo && !reducedMotion) {
     if (!presentationFrame) presentationFrame = requestAnimationFrame(syncPresentation);
   }
 
+  let lastReversePrimeAt = 0;
+  function primeReverseFrame() {
+    if (!(isPhoneLayout || isTouchDevice) || switching || desiredDirection < 0 ||
+        activeVideo !== heroLoopVideo || heroLoopVideo.paused ||
+        heroReverseVideo.readyState < HTMLMediaElement.HAVE_METADATA || heroReverseVideo.seeking) return;
+    const now = performance.now();
+    if (now - lastReversePrimeAt < 650) return;
+    const duration = heroLoopVideo.duration || heroDuration;
+    const target = Math.min(duration - heroLoopVideo.currentTime,
+      Math.max(0, heroReverseVideo.duration - 0.04));
+    if (Math.abs(heroReverseVideo.currentTime - target) < 0.38) return;
+    lastReversePrimeAt = now;
+    // Prepare the matching reverse frame while it is still hidden. This makes
+    // a quick finger reversal far less dependent on a new network request.
+    heroReverseVideo.currentTime = target;
+  }
+
   function pauseHero() {
     if (lockDirection) return;
     switchToken++;
@@ -654,8 +671,9 @@ if (hasHeroVideo && !reducedMotion) {
 
   heroLoopVideo.addEventListener('ended', () => {
     syncPresentation();
-    if (lockDirection > 0) releaseHero();
+    if (lockDirection > 0 && desiredDirection > 0) releaseHero();
   });
+  heroLoopVideo.addEventListener('timeupdate', primeReverseFrame);
   heroReverseVideo.addEventListener('ended', () => {
     syncPresentation();
     showOpeningStill();
