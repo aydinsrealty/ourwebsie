@@ -54,3 +54,7 @@ public/assets/videos/*
 !public/assets/videos/hero-reverse-48.mp4
 !public/assets/videos/hero-forward-touch.mp4
 !public/assets/videos/hero-reverse-touch.mp4
+!public/assets/videos/hero-forward-touch/
+!public/assets/videos/hero-reverse-touch/
+!public/assets/videos/hero-forward-touch/chunk-*.bin
+!public/assets/videos/hero-reverse-touch/chunk-*.bin

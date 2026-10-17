@@ -72,7 +72,7 @@ function updateNav(y) {
 let setHeroDirection = () => {};
 lenis.on('scroll', ({animatedScroll, direction, velocity}) => {
   updateNav(animatedScroll);
-  if (direction) setHeroDirection(direction, Math.abs(velocity || 0));
+  if (direction) setHeroDirection(direction, Math.abs(velocity || 0), 'scroll');
 });
 
 // -------------------------------------------------------------
@@ -97,6 +97,12 @@ function dismissLoader() {
   if (!loader || exiting) return;
   exiting = true;
   setPreloadProgress(1);
+  if ((isPhoneLayout || isTouchDevice) && heroLoopVideo && !heroLoopVideo.played.length) {
+    // Start filling the forward buffer after the opening photograph is sharp.
+    // This prevents two large films from competing with the first screen.
+    heroLoopVideo.preload = 'auto';
+    heroLoopVideo.load();
+  }
   gsap.to(loader, {
     clipPath: 'polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)',
     duration: reducedMotion ? 0 : 0.75,
@@ -185,10 +191,15 @@ function preloadDomImage(img) {
 
 if (hasHeroVideo && !reducedMotion) {
   if (isPhoneLayout || isTouchDevice) {
-    // These encode the same five-second films with nearby seek points, so a
-    // mid-swipe reversal can decode its matching frame on a touch device.
-    heroLoopVideo.src = '/assets/videos/hero-forward-touch.mp4';
-    heroReverseVideo.src = '/assets/videos/hero-reverse-touch.mp4';
+    // The matching <source media> selects the touch film before the browser
+    // begins downloading, avoiding a wasted desktop-film request on phones.
+    heroLoopVideo.preload = 'metadata';
+    heroReverseVideo.preload = 'metadata';
+    heroLoopVideo.load();
+    heroReverseVideo.load();
+  } else {
+    heroLoopVideo.preload = 'auto';
+    heroReverseVideo.preload = 'auto';
     heroLoopVideo.load();
     heroReverseVideo.load();
   }
@@ -517,10 +528,9 @@ if (hasHeroVideo && !reducedMotion) {
     if (heroCamera) gsap.killTweensOf(heroCamera);
     const token = ++switchToken;
     switching = true;
-    activeVideo.pause();
     const nextVideo = nextDirection < 0 ? heroReverseVideo : heroLoopVideo;
-    // The other film may still be downloading on a live connection. Keep the
-    // current frame visible until its matching frame has actually decoded.
+    // Keep the visible film moving while the other film obtains its metadata.
+    // Pausing here made a quick reversal visibly freeze on mobile networks.
     if (nextVideo.readyState < 1) {
       nextVideo.load();
       await new Promise(resolve => {
@@ -578,6 +588,23 @@ if (hasHeroVideo && !reducedMotion) {
       if (token === switchToken) { switching = false; releaseHero(); }
       return;
     }
+    // The visible film continued playing while the reverse frame arrived.
+    // Bring the hidden film close to the *current* frame before swapping it
+    // in, rather than jumping back to where the finger first changed course.
+    const latestPosition = heroPosition();
+    const latestTime = Math.min(
+      Math.max(nextDirection < 0 ? duration - latestPosition : latestPosition, 0),
+      Math.max(0, nextVideo.duration - 0.04)
+    );
+    if (Math.abs(nextVideo.currentTime - latestTime) > 0.08) {
+      nextVideo.currentTime = latestTime;
+      await new Promise(resolve => {
+        const finish = () => { nextVideo.removeEventListener('seeked', finish); resolve(); };
+        nextVideo.addEventListener('seeked', finish, { once: true });
+        if (!nextVideo.seeking) finish();
+      });
+    }
+    if (token !== switchToken || nextVideo.error) return;
     if (desiredDirection !== nextDirection) {
       switching = false;
       if (desiredDirection === direction) playHero();
@@ -600,8 +627,11 @@ if (hasHeroVideo && !reducedMotion) {
     }
   }
 
-  setHeroDirection = (nextDirection, velocity = 0) => {
+  setHeroDirection = (nextDirection, velocity = 0, source = 'gesture') => {
     if (!heroTrigger.isActive && !(isTouchDevice && lockDirection)) return;
+    // Native touch momentum can briefly report the old scroll direction while
+    // a locked finger gesture is requesting the opposite film.
+    if (source === 'scroll' && isTouchDevice && lockDirection) return;
     const requestedDirection = nextDirection < 0 ? -1 : 1;
     if (lockDirection && requestedDirection === lockDirection) return;
     playbackRate = Math.min(1.25, 1 + velocity / 80);
@@ -651,7 +681,10 @@ async function initLoader() {
     gsap.fromTo(logoEl, { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' });
   }
 
-  const domImages = Array.from(document.querySelectorAll('img:not([data-preloader-logo])'));
+  // Only gate the opening view. Preloading every image defeated loading="lazy"
+  // and kept the curtain up while the entire long page downloaded.
+  const domImages = Array.from(document.querySelectorAll('img:not([data-preloader-logo])'))
+    .filter(img => img.loading !== 'lazy' && img.getBoundingClientRect().top < window.innerHeight);
   totalTasks = domImages.length;
   completedTasks = 0;
   setPreloadProgress(0);
