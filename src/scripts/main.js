@@ -231,11 +231,21 @@ if (hasHeroVideo && !reducedMotion) {
   let leavingHero = false;
   let handoffToken = 0;
   let handoffPending = false;
+  let lastHeroTouchAt = -Infinity;
   const heroTrigger = ScrollTrigger.create({
     trigger: '#heroScrollPin',
     start: 'top top',
     end: 'bottom bottom',
-    onLeave: () => pauseHero(),
+    onLeave: () => {
+      if (isTouchDevice && performance.now() - lastHeroTouchAt < 1600 && !leavingHero &&
+          heroPosition() < (heroLoopVideo.duration || heroDuration) - 0.05) {
+        lockHero(1);
+      } else pauseHero();
+    },
+    onLeaveBack: () => {
+      if (isTouchDevice && performance.now() - lastHeroTouchAt < 1600 &&
+          !leavingHero && heroPosition() > 0.05) lockHero(-1);
+    },
   });
 
   function heroBoundary(edge) {
@@ -408,6 +418,9 @@ if (hasHeroVideo && !reducedMotion) {
     if (event.touches.length !== 1) return;
     const currentY = event.touches[0].clientY;
     const delta = touchStartY - currentY;
+    if (isTouchDevice && heroTrigger.isActive && Math.abs(delta) > 12) {
+      lastHeroTouchAt = performance.now();
+    }
     if (leavingHero) {
       if (event.cancelable) event.preventDefault();
       return;
