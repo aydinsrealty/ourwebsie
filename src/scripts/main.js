@@ -6,11 +6,13 @@ import marqueeBrands from './marquee-brands.js';
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const isPhoneLayout = matchMedia('(max-width: 767px)').matches;
 const lenis = new Lenis({
   duration: 0.78,
   wheelMultiplier: 0.98,
   smoothWheel: !reducedMotion,
-  smoothTouch: false,
+  syncTouch: isPhoneLayout && !reducedMotion,
+  touchInertiaExponent: isPhoneLayout ? 1.3 : 1.7,
   anchors: true,
   easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
 });
@@ -197,8 +199,8 @@ if (hasHeroVideo && !reducedMotion) {
 
   if (headingAydins) heroTimeline.to(headingAydins, { xPercent: -175, duration: 1.1, ease: 'power1.inOut' }, 0);
   if (headingRealty) heroTimeline.to(headingRealty, { xPercent: -125, duration: 1.1, ease: 'power1.inOut' }, 0);
-  if (headingKnows) heroTimeline.to(headingKnows, { xPercent: 150, duration: 1.1, ease: 'power1.inOut' }, 0);
-  if (headingKerala) heroTimeline.to(headingKerala, { xPercent: 125, duration: 1.1, ease: 'power1.inOut' }, 0);
+  if (headingKnows) heroTimeline.to(headingKnows, { xPercent: isPhoneLayout ? 190 : 150, duration: 1.1, ease: 'power1.inOut' }, 0);
+  if (headingKerala) heroTimeline.to(headingKerala, { xPercent: isPhoneLayout ? 150 : 125, duration: 1.1, ease: 'power1.inOut' }, 0);
   if (paraLeft) heroTimeline.to(paraLeft, { opacity: 0, duration: 1.1, ease: 'power1.inOut' }, 0);
   if (paraRight) heroTimeline.to(paraRight, { opacity: 0, duration: 1.1, ease: 'power1.inOut' }, 0);
   if (scrollIndicator) heroTimeline.to(scrollIndicator, { opacity: 0, duration: 0.3, ease: 'power1.inOut' }, 0);
@@ -230,9 +232,12 @@ if (hasHeroVideo && !reducedMotion) {
 
   function heroBoundary(edge) {
     const wrap = document.getElementById('heroScrollPin');
+    const viewportHeight = isPhoneLayout
+      ? document.querySelector('.hero_home_section')?.offsetHeight || window.innerHeight
+      : window.innerHeight;
     return edge < 0
       ? wrap.offsetTop + 80
-      : wrap.offsetTop + wrap.offsetHeight - window.innerHeight - 80;
+      : wrap.offsetTop + wrap.offsetHeight - viewportHeight - 80;
   }
 
   function heroPosition() {
@@ -397,10 +402,13 @@ if (hasHeroVideo && !reducedMotion) {
     }
     if (delta > 12 && readyForNextSection()) {
       if (event.cancelable) event.preventDefault();
+      event.stopImmediatePropagation();
       goToAbout();
       return;
     }
     if (lockDirection && Math.abs(delta) > 12 && Math.sign(delta) === -lockDirection) {
+      if (event.cancelable) event.preventDefault();
+      event.stopImmediatePropagation();
       releaseHero(true);
       setHeroDirection(Math.sign(delta), 20);
     }
@@ -596,7 +604,11 @@ async function initLoader() {
     gsap.fromTo(logoEl, { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' });
   }
 
-  const domImages = Array.from(document.querySelectorAll('img:not([data-preloader-logo])'));
+  // On phones, waiting for every below-the-fold photo competes with both hero
+  // films and makes the first swipe feel unresponsive on a mobile connection.
+  const domImages = isPhoneLayout
+    ? [heroCamera].filter(Boolean)
+    : Array.from(document.querySelectorAll('img:not([data-preloader-logo])'));
   totalTasks = domImages.length;
   completedTasks = 0;
   setPreloadProgress(0);

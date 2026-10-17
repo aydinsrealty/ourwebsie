@@ -366,7 +366,7 @@ body.nav-active .g_nav_menu_button_line:nth-child(3) {width:32px;transform:trans
 .footer-pillars {display:block;letter-spacing:0.14em;font-weight:600;text-transform:uppercase;font-size:13px;color:#ffea00;margin:6px 0 8px}
 @media(max-width:767px) {
  :root {--container-padding:20px}
- .hero_scroll_pin_wrap {height:250vh}
+ .hero_scroll_pin_wrap {height:250vh;height:250svh}
  .hero_home_section {min-height:580px;height:100svh;padding:110px 0 32px;overflow:hidden}
  .hero_text_huge,.hero_main_text_heading.u-text-style-h1 {font-size:clamp(2.85rem,14.5vw,4.4rem);line-height:.95;letter-spacing:-.04em;white-space:nowrap}
  .g_nav_bar {height:80px;padding:0 20px}.g_nav_wrap {height:80px}.reference-wordmark {font-size:15px}
