@@ -184,6 +184,14 @@ function preloadDomImage(img) {
 }
 
 if (hasHeroVideo && !reducedMotion) {
+  if (isPhoneLayout || isTouchDevice) {
+    // These encode the same five-second films with nearby seek points, so a
+    // mid-swipe reversal can decode its matching frame on a touch device.
+    heroLoopVideo.src = '/assets/videos/hero-forward-touch.mp4';
+    heroReverseVideo.src = '/assets/videos/hero-reverse-touch.mp4';
+    heroLoopVideo.load();
+    heroReverseVideo.load();
+  }
   const heroTimeline = gsap.timeline({ paused: true });
   const heroDuration = 5;
   const headingAydins = document.querySelector('[data-hero-heading="aydins"]');
