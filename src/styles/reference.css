@@ -560,7 +560,7 @@ h1,h2,h3,h4,.hero_text_huge,.hero_main_text_heading.u-text-style-h1,.bold-nav-fu
 /* Presentation Key Metrics Strip */
 .project_kpi_section {
   background: #fffefc;
-  padding: 80px 4.08vw;
+  padding: 80px 0;
   border-bottom: 1px solid rgba(35, 15, 102, 0.08);
 }
 .project_kpi_grid {
@@ -670,7 +670,7 @@ h1,h2,h3,h4,.hero_text_huge,.hero_main_text_heading.u-text-style-h1,.bold-nav-fu
 
 /* Project Narrative & Specs Section */
 .project_specs_section {
-  padding: 120px 4.08vw;
+  padding: 120px 0;
   background: #fffefc;
 }
 .project_specs_grid {
