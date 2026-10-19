@@ -1462,3 +1462,24 @@ body.sector-dialog-open { overflow: hidden; }
     overflow-wrap: normal;
   }
 }
+/* Justify reading copy without changing the editorial alignment of headings,
+   labels, short card copy, and deliberately right-aligned hero text. */
+.cta_content_col_right > p,
+.home-generic-copy > p,
+.cta_editorial_body,
+.accordion_services_paragraph,
+.page-services .u-section > .u-container > div > p,
+.page-team .team_philosophy_right > p:nth-child(-n + 3),
+.page-team .team_founder_bio,
+.page-team .team_director_bio,
+.page-team .deals_cta_text > p,
+.page-project-detail .project_specs_left > p,
+.page-project-detail .aydin_collage_lead,
+.page-investor-returns .investor-hero-copy > p,
+.page-investor-returns .investor-overview-copy p,
+.page-investor-returns .investor-expect-copy > p,
+.page-investor-returns .investor-contact-grid p {
+  text-align: justify;
+  hyphens: auto;
+  hyphenate-limit-chars: 8 4 4;
+}
