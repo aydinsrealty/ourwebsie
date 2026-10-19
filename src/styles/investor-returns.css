@@ -157,4 +157,5 @@
 @media (max-width: 380px) {
   .investor-hero-copy h1 { font-size: 3.25rem; }
   .investor-hero-top span:last-child { display: none; }
+  .investor-projects h2 { font-size: 2.3rem; }
 }

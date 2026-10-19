@@ -1141,7 +1141,7 @@ body.sector-dialog-open { overflow: hidden; }
 }
 
 #about .cta_content_col_left {
-  align-self: end;
+  align-self: start;
 }
 
 #about .cta_content_col_right {
@@ -1219,6 +1219,55 @@ body.sector-dialog-open { overflow: hidden; }
   font-size: clamp(3.2rem, 5vw, 5.5rem);
   line-height: 1.04;
   max-width: 22ch;
+}
+
+/* Keep the About copy on a readable measure before the desktop grid narrows. */
+@media (max-width: 1023px) {
+  #about .cta_text_grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  #about .cta_heading_col,
+  #about .cta_content_col_left,
+  #about .cta_content_col_right {
+    grid-column: 1;
+    min-width: 0;
+  }
+
+  #about .cta_content_col_right { order: 1; }
+  #about .cta_content_col_left { order: 2; }
+  #about .cta_content_col_right p { max-width: 62ch; }
+
+  .page-done-deals .work_main_collection_list.u-grid-custom {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Contact copy and form follow the same page gutter as the other sections. */
+.reference-contact {
+  padding-left: var(--container-padding);
+  padding-right: var(--container-padding);
+}
+
+@media (max-width: 767px) {
+  .reference-contact {
+    padding-left: var(--container-padding);
+    padding-right: var(--container-padding);
+  }
+
+  .cta_editorial_grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .cta_editorial_col_main,
+  .cta_editorial_col_side {
+    grid-column: 1;
+    min-width: 0;
+  }
+
+  .page-done-deals .work_main_collection_list.u-grid-custom {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
 
 @media (max-width: 700px) {
