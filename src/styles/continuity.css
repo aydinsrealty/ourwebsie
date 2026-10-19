@@ -1483,3 +1483,55 @@ body.sector-dialog-open { overflow: hidden; }
   hyphens: auto;
   hyphenate-limit-chars: 8 4 4;
 }
+/* Project stories use one display idea and a quieter supporting sentence. */
+.page-project-detail .project_editorial_section {
+  padding: clamp(72px, 7vw, 104px) 0 clamp(48px, 5vw, 72px);
+  background: #fffefc;
+}
+
+.page-project-detail .project_editorial_inner {
+  max-width: 72rem;
+}
+
+.page-project-detail .project_editorial_kicker {
+  display: block;
+  max-width: 55ch;
+  margin-bottom: clamp(20px, 2.5vw, 32px);
+  font-size: clamp(15px, 1.25vw, 18px);
+}
+
+.page-project-detail .editorial_grow_heading {
+  max-width: 25ch;
+  margin: 0;
+  font-size: clamp(2.25rem, 4.45vw, 4.25rem);
+  line-height: 1.04;
+  text-wrap: balance;
+}
+
+.page-project-detail .project_editorial_support {
+  max-width: 42ch;
+  margin: clamp(28px, 3vw, 44px) 0 0 auto;
+  padding-left: 18px;
+  border-left: 2px solid #ffea00;
+  color: #666;
+  font-size: clamp(17px, 1.45vw, 21px);
+  line-height: 1.5;
+}
+
+.page-project-detail .project_editorial_section + .project_specs_section {
+  padding-top: clamp(56px, 5vw, 76px);
+}
+
+.page-investor-returns .investor-contact h2 {
+  color: #fffefc;
+}
+
+@media (max-width: 767px) {
+  .page-project-detail .project_editorial_section {
+    padding: 56px 0 32px;
+  }
+  .page-project-detail .project_editorial_section + .project_specs_section {
+    padding-top: 40px;
+  }
+  .page-project-detail .project_editorial_support { margin-left: 0; }
+}
